@@ -1,0 +1,612 @@
+<CTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="/style.css" type="text/css" />
+<style type="text/css">
+body { font: 14px/1.3 verdana, arial, helvetica, sans-serif;
+  background-color:#888888 }
+h1 { font-size:18px; text-align:center; margin:0 0 .5em 0 }
+p.foot { font-size:10px; text-align:center; }
+</style>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Google Maps JavaScript API Example</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAIMrDGKZuvFaDj1JqWckPIhSyHNil9ncMiw6NXCDZKhVmdV0cMRRTtm1Hs_iTz71x6uBq_2bX1XgYsA"
+      type="text/javascript"></script>
+    <script type="text/javascript">
+
+    //<![CDATA[
+
+    function load() {
+      if (GBrowserIsCompatible()) {
+
+        function createMarker(path, comment, point){
+                var icon = new GIcon();
+                icon.image = path;
+                icon.shadow = "images/mm_20_shadow.png";
+                icon.iconSize = new GSize(12, 20);
+                icon.shadowSize = new GSize(22, 20);
+                icon.iconAnchor = new GPoint(6, 20);
+                icon.infoWindowAnchor = new GPoint(5, 1);
+                // Set up our GMarkerOptions object literal
+                var markerOpts = { icon:icon };
+                var marker = new GMarker(point, markerOpts);
+                GEvent.addListener(marker, "click", function() {
+                         marker.openInfoWindowHtml(comment);
+                });
+                return marker;
+        }
+
+
+        function createCarMarker(path, comment, point){
+                var icon = new GIcon();
+                icon.image = path;
+                icon.shadow = "images/mm_20_shadow.png";
+                icon.iconSize = new GSize(69, 37);
+                icon.shadowSize = new GSize(22, 20);
+                icon.iconAnchor = new GPoint(60, 20);
+                icon.infoWindowAnchor = new GPoint(5, 1);
+                // Set up our GMarkerOptions object literal
+                var markerOpts = { icon:icon };
+                var marker = new GMarker(point, markerOpts);
+                GEvent.addListener(marker, "click", function() {
+                         marker.openInfoWindowHtml(comment);
+                });
+                return marker;
+        }
+
+
+        //create the map object
+        var map = new GMap2(document.getElementById("map"));
+
+        //centre map in kazahkstan
+        map.setCenter(new GLatLng(48.04871,65.742188), 2);
+        //centre map in london
+        //map.setCenter(new GLatLng(51.507310, -0.170350), 1);
+
+        var expectedpolyline = new GPolyline([
+                new GLatLng(51.489320, -0.111200),
+                new GLatLng(51.435186, 0.180927),
+                new GLatLng(51.126720, 1.311460),
+                new GLatLng(50.422560, 4.875380),
+                new GLatLng(49.612900, 6.201470),
+                new GLatLng(49.418790, 11.051760),
+                new GLatLng(50.061450, 14.509150),
+                new GLatLng(48.140280, 17.192680),
+                new GLatLng(47.437220, 19.094450),
+                new GLatLng(44.436340, 25.962070),
+                new GLatLng(42.049293,26.455078),
+                new GLatLng(40.996484,29.135742),
+                new GLatLng(39.926588,41.19873),
+                new GLatLng(38.065392,46.296387),
+                new GLatLng(35.585852,51.525879),
+                new GLatLng(37.944198,58.447266),
+                new GLatLng(38.993572,63.544922),
+                new GLatLng(39.571822,67.126465),
+                new GLatLng(40.313043,73.278809),
+                new GLatLng(40.313043, 73.278809),
+                new GLatLng(42.795401,74.685059),
+                new GLatLng(46.240652,73.696289),
+                new GLatLng(50.415519, 80.288086),
+                new GLatLng(53.278353,83.891602),
+                new GLatLng(49.738682,89.318848),
+                new GLatLng(46.54375,96.877441),
+                new GLatLng(45.490946,98.569336),
+                new GLatLng(46.935261,100.876465),
+                new GLatLng(46.073231,103.491211),
+                new GLatLng(47.842658,106.896973),
+                ], "#ff0000", 5);
+        map.addOverlay(expectedpolyline);
+
+        startMarker = createMarker("images/redballoon.png", "London, UK" , new GLatLng(51.507310, -0.170350));
+        map.addOverlay(startMarker);
+
+        finishMarker = createMarker("images/greenballoon.png", "Ulaanbaatar, Mongolia" , new GLatLng(47.917723,106.933022));
+        map.addOverlay(finishMarker);
+
+        // marlow bridge 51.567314,-0.773265
+        marlowMarker = createMarker("images/blueballoon.png", "Marlow, UK <br>And its (not so) famous bridge!" , new GLatLng( 51.567314,-0.773265));
+        map.addOverlay(marlowMarker);
+
+        // budapest bridge 47.498909,19.043512
+        budaMarker = createMarker("images/blueballoon.png", "Budapest, Hungary<br> Centred on the big brother of the Marlow Bridge" , new GLatLng(47.498909,19.043512));
+        map.addOverlay(budaMarker);
+
+        map.addControl(new GLargeMapControl());
+        map.addControl(new GMapTypeControl());
+
+        var polyline = new GPolyline([
+            new GLatLng(51.509010, -0.160675),
+            new GLatLng(51.509010, -0.160675),
+            new GLatLng(51.509010, -0.160675),
+            new GLatLng(51.4747, -0.024),
+            new GLatLng(51.4478, 0.1532),
+            new GLatLng(51.3701, 0.2554),
+            new GLatLng(51.2672, 0.615),
+            new GLatLng(51.1268, 1.3328),
+            new GLatLng(50.9344, 2.0493),
+            new GLatLng(51.0394, 2.3781),
+            new GLatLng(50.8521, 4.6576),
+            new GLatLng(50.8176, 6.217),
+            new GLatLng(50.8563, 6.5067),
+            new GLatLng(49.7511, 9.8932),
+            new GLatLng(49.7742, 10.3204),
+            new GLatLng(49.4073, 11.2942),
+            new GLatLng(49.4237, 11.6861),
+            new GLatLng(49.214, 12.5714),
+            new GLatLng(49.202, 12.665),
+            new GLatLng(49.3721, 13.0635),
+            new GLatLng(49.3348, 13.2277),
+            new GLatLng(49.3349, 13.2278),
+            new GLatLng(49.1385, 13.2275),
+            new GLatLng(48.4002, 13.425),
+            new GLatLng(48.1773, 15.5527),
+            new GLatLng(48.1881, 16.3475),
+            new GLatLng(48.1556, 16.4786),
+            new GLatLng(47.9932, 16.8323),
+            new GLatLng(47.9197, 17.1185),
+            new GLatLng(47.635, 18.2406),
+            new GLatLng(47.484, 19.0712),
+            new GLatLng(46.8678, 19.6438),
+            new GLatLng(46.5016, 19.9125),
+            new GLatLng(46.1725, 19.975),
+            new GLatLng(45.4652, 19.7308),
+            new GLatLng(44.8095, 20.4265),
+            new GLatLng(42.9787, 22.8494),
+            new GLatLng(42.7699, 23.2011),
+            new GLatLng(42.3191, 24.1311),
+            new GLatLng(42.1955, 25.251),
+            new GLatLng(42.1954, 25.2512),
+            new GLatLng(42.5556, 27.4269),
+            new GLatLng(42.2341, 27.7672),
+            new GLatLng(41.9773, 27.5332),
+            new GLatLng(41.9707, 27.406),
+            new GLatLng(41.5001, 27.185),
+            new GLatLng(41.083, 28.3683),
+            new GLatLng(41.0351, 29.0445),
+            new GLatLng(40.9836, 28.8217),
+            new GLatLng(40.9806, 28.9022),
+            new GLatLng(40.9802, 28.9021),
+            new GLatLng(40.7515, 30.698),
+            new GLatLng(40.8358, 30.9428),
+            new GLatLng(40.7553, 31.7735),
+            new GLatLng(40.6089, 32.2531),
+            new GLatLng(39.8642, 33.519),
+            new GLatLng(39.9958, 34.0648),
+            new GLatLng(39.9088, 33.9838),
+            new GLatLng(39.7404, 34.2533),
+            new GLatLng(39.81, 34.7752),
+            new GLatLng(39.7332, 35.2193),
+            new GLatLng(39.6127, 35.1948),
+            new GLatLng(39.6127, 35.0936),
+            new GLatLng(39.6869, 35.4151),
+            new GLatLng(39.8561, 38.3572),
+            new GLatLng(39.9574, 38.6434),
+            new GLatLng(39.568, 39.9748),
+            new GLatLng(39.7819, 40.4525),
+            new GLatLng(39.9059, 41.2743),
+            new GLatLng(39.9713, 41.4263),
+            new GLatLng(39.7483, 42.8513),
+            new GLatLng(39.6555, 43.3448),
+            new GLatLng(39.5414, 44.037),
+            new GLatLng(39.3108, 44.4186),
+            new GLatLng(39.2813, 44.7776),
+            new GLatLng(38.3361, 45.8897),
+            new GLatLng(38.0727, 46.2389),
+            new GLatLng(38.0244, 46.3716),
+            new GLatLng(38.0588, 46.3406),
+            new GLatLng(37.8319, 46.8373),
+            new GLatLng(37.9445, 47.8083),
+            new GLatLng(38.0293, 47.9915),
+            new GLatLng(38.2489, 48.3077),
+            new GLatLng(38.2088, 48.3379),
+            new GLatLng(37.7293, 48.3133),
+            new GLatLng(37.7, 48.4737),
+            new GLatLng(37.7116, 48.9034),
+            new GLatLng(37.261, 49.3643),
+            new GLatLng(37.2743, 49.5431),
+            new GLatLng(37.5857, 48.6364),
+            new GLatLng(37.0708, 50.3965),
+            new GLatLng(36.637, 51.5538),
+            new GLatLng(36.6717, 52.4491),
+            new GLatLng(36.4813, 52.8659),
+            new GLatLng(36.6334, 53.2798),
+            new GLatLng(36.694, 53.5823),
+            new GLatLng(36.7546, 53.9538),
+            new GLatLng(36.7993, 54.1059),
+            new GLatLng(36.8233, 54.2547),
+            new GLatLng(36.9015, 54.7664),
+            new GLatLng(36.9387, 54.9212),
+            new GLatLng(37.3851, 55.8679),
+            new GLatLng(37.3277, 55.5424),
+            new GLatLng(37.338, 56.257),
+            new GLatLng(37.5273, 56.8921),
+            new GLatLng(37.3931, 57.9397),
+            new GLatLng(37.3868, 58.5658),
+            new GLatLng(37.5468, 58.4305),
+            new GLatLng(37.6285, 58.4063),
+            new GLatLng(37.6407, 58.3977),
+            new GLatLng(37.9405, 58.3775),
+            new GLatLng(37.9222, 58.4422),
+            new GLatLng(37.2185, 59.9883),
+            new GLatLng(37.225, 61.1687),
+            new GLatLng(37.2823, 61.3228),
+            new GLatLng(37.5764, 61.7791),
+            new GLatLng(37.5815, 61.7876),
+            new GLatLng(37.5881, 61.8268),
+            new GLatLng(37.5703, 61.8344),
+            new GLatLng(37.6106, 61.9597),
+            new GLatLng(37.6173, 62.0428),
+            new GLatLng(38.1926, 62.8793),
+            new GLatLng(38.5567, 63.1664),
+            new GLatLng(39.1047, 63.5536),
+            new GLatLng(39.1073, 63.4818),
+            new GLatLng(39.2036, 63.7141),
+            new GLatLng(39.2701, 63.7332),
+            new GLatLng(39.7698, 64.4214),
+            new GLatLng(39.8875, 64.4647),
+            new GLatLng(40.0759, 65.616),
+            new GLatLng(39.9231, 66.2301),
+            new GLatLng(39.9566, 66.485),
+            new GLatLng(39.7087, 66.9601),
+            new GLatLng(39.8588, 67.4688),
+            new GLatLng(40.3365, 68.1144),
+            new GLatLng(40.5948, 68.4031),
+            new GLatLng(40.497, 68.609),
+            new GLatLng(40.9188, 68.7117),
+            new GLatLng(40.8221, 70.7953),
+            new GLatLng(40.9424, 71.194),
+            new GLatLng(41.0225, 71.7991),
+            new GLatLng(41.3362, 72.2275),
+            new GLatLng(41.6966, 72.917),
+            new GLatLng(41.7615, 73.1216),
+            new GLatLng(41.9598, 72.8758),
+            new GLatLng(42.6777, 73.8972),
+            new GLatLng(42.8414, 73.9929),
+            new GLatLng(42.8002, 73.5976),
+            new GLatLng(43.6556, 73.7667),
+            new GLatLng(44.0745, 73.5812),
+            new GLatLng(44.2651, 73.8053),
+            new GLatLng(44.7055, 73.9478),
+            new GLatLng(45.4937, 73.5249),
+            new GLatLng(45.9193, 73.5209),
+            new GLatLng(46.2787, 73.708),
+            new GLatLng(46.6267, 74.3602),
+            new GLatLng(46.6959, 74.4814),
+            new GLatLng(46.9657, 74.9373),
+            new GLatLng(49.0031, 73.5496),
+            new GLatLng(49.7839, 73.1437),
+            new GLatLng(50.5259, 73.355),
+            new GLatLng(50.9399, 73.8674),
+            new GLatLng(51.3831, 74.2266),
+            new GLatLng(52.2302, 76.7244),
+            new GLatLng(52.2973, 76.9297),
+            new GLatLng(51.6355, 77.593),
+            new GLatLng(51.2289, 78.6127),
+            new GLatLng(50.4015, 80.245),
+            new GLatLng(50.4015, 80.2474),
+            new GLatLng(52.6052, 82.9017),
+            new GLatLng(53.2689, 83.7255),
+            new GLatLng(53.2986, 83.763),
+            new GLatLng(53.3475, 83.7581),
+            new GLatLng(53.3371, 83.7712),
+            new GLatLng(53.3486, 83.9455),
+            new GLatLng(53.2708, 84.3676),
+            new GLatLng(51.9567, 85.8477),
+            new GLatLng(50.9961, 85.6561),
+            new GLatLng(50.8054, 86.0033),
+            new GLatLng(50.7231, 86.2719),
+            new GLatLng(50.5617, 86.5542),
+            new GLatLng(50.4066, 86.779),
+            new GLatLng(50.2527, 87.6793),
+            new GLatLng(49.7201, 89.1858),
+            new GLatLng(49.6723, 89.2681),
+            new GLatLng(49.6085, 89.4662),
+            new GLatLng(49.4709, 89.7516),
+            new GLatLng(49.3169, 89.8348),
+            new GLatLng(49.1567, 89.8715),
+            new GLatLng(48.7988, 89.9462),
+            new GLatLng(48.4883, 90.5304),
+            new GLatLng(48.4091, 91.0016),
+            new GLatLng(48.0492, 91.6114),
+            new GLatLng(47.9888, 91.6958),
+            new GLatLng(47.9911, 91.6412),
+            new GLatLng(48.0071, 91.6613),
+            new GLatLng(47.703, 92.0839),
+            new GLatLng(47.1513, 92.7203),
+            new GLatLng(47.0553, 92.9968),
+            new GLatLng(47.0516, 93.1119),
+            new GLatLng(46.85, 94.2826),
+            new GLatLng(46.7182, 94.624),
+            new GLatLng(46.7054, 94.8078),
+            new GLatLng(46.4967, 95.3543),
+            new GLatLng(46.3771, 96.0211),
+            new GLatLng(46.3699, 96.2553),
+            new GLatLng(46.3734, 96.9072),
+            new GLatLng(46.0835, 97.7151),
+            new GLatLng(45.8458, 98.169),
+            new GLatLng(45.7553, 98.8965),
+            new GLatLng(45.8296, 99.221),
+            new GLatLng(45.8567, 99.3322),
+            new GLatLng(45.9302, 99.5827),
+            new GLatLng(46.0117, 100.3462),
+            new GLatLng(46.1845, 100.7181),
+            new GLatLng(46.1016, 100.7741),
+            new GLatLng(45.9268, 101.2547),
+            new GLatLng(45.8094, 101.9292),
+            new GLatLng(45.8854, 102.0463),
+            new GLatLng(46.0118, 102.2859),
+            new GLatLng(46.1248, 102.5789),
+            new GLatLng(47.3231, 103.6717),
+            new GLatLng(47.3702, 103.9557),
+            new GLatLng(47.6935, 104.9976),
+            new GLatLng(47.8957, 105.3557),
+            new GLatLng(47.8846, 105.7466),
+            new GLatLng(47.9136, 106.1136),
+            new GLatLng(47.8987, 106.4207),
+            new GLatLng(47.9165, 106.9076),
+            new GLatLng(47.9166, 106.9076),
+            new GLatLng(47.9166, 106.9076)
+        ], "#00ff00", 10);
+        var polyline2 = new GPolyline([
+            new GLatLng(51.509010, -0.160675),
+            new GLatLng(51.509010, -0.160675),
+            new GLatLng(51.509010, -0.160675),
+            new GLatLng(51.4747, -0.024),
+            new GLatLng(51.4478, 0.1532),
+            new GLatLng(51.3701, 0.2554),
+            new GLatLng(51.2672, 0.615),
+            new GLatLng(51.1268, 1.3328),
+            new GLatLng(50.9344, 2.0493),
+            new GLatLng(51.0394, 2.3781),
+            new GLatLng(50.8521, 4.6576),
+            new GLatLng(50.8176, 6.217),
+            new GLatLng(50.8563, 6.5067),
+            new GLatLng(49.7511, 9.8932),
+            new GLatLng(49.7742, 10.3204),
+            new GLatLng(49.4073, 11.2942),
+            new GLatLng(49.4237, 11.6861),
+            new GLatLng(49.214, 12.5714),
+            new GLatLng(49.202, 12.665),
+            new GLatLng(49.3721, 13.0635),
+            new GLatLng(49.3348, 13.2277),
+            new GLatLng(49.3349, 13.2278),
+            new GLatLng(49.1385, 13.2275),
+            new GLatLng(48.4002, 13.425),
+            new GLatLng(48.1773, 15.5527),
+            new GLatLng(48.1881, 16.3475),
+            new GLatLng(48.1556, 16.4786),
+            new GLatLng(47.9932, 16.8323),
+            new GLatLng(47.9197, 17.1185),
+            new GLatLng(47.635, 18.2406),
+            new GLatLng(47.484, 19.0712),
+            new GLatLng(46.8678, 19.6438),
+            new GLatLng(46.5016, 19.9125),
+            new GLatLng(46.1725, 19.975),
+            new GLatLng(45.4652, 19.7308),
+            new GLatLng(44.8095, 20.4265),
+            new GLatLng(42.9787, 22.8494),
+            new GLatLng(42.7699, 23.2011),
+            new GLatLng(42.3191, 24.1311),
+            new GLatLng(42.1955, 25.251),
+            new GLatLng(42.1954, 25.2512),
+            new GLatLng(42.5556, 27.4269),
+            new GLatLng(42.2341, 27.7672),
+            new GLatLng(41.9773, 27.5332),
+            new GLatLng(41.9707, 27.406),
+            new GLatLng(41.5001, 27.185),
+            new GLatLng(41.083, 28.3683),
+            new GLatLng(41.0351, 29.0445),
+            new GLatLng(40.9836, 28.8217),
+            new GLatLng(40.9806, 28.9022),
+            new GLatLng(40.9802, 28.9021),
+            new GLatLng(40.7515, 30.698),
+            new GLatLng(40.8358, 30.9428),
+            new GLatLng(40.7553, 31.7735),
+            new GLatLng(40.6089, 32.2531),
+            new GLatLng(39.8642, 33.519),
+            new GLatLng(39.9958, 34.0648),
+            new GLatLng(39.9088, 33.9838),
+            new GLatLng(39.7404, 34.2533),
+            new GLatLng(39.81, 34.7752),
+            new GLatLng(39.7332, 35.2193),
+            new GLatLng(39.6127, 35.1948),
+            new GLatLng(39.6127, 35.0936),
+            new GLatLng(39.6869, 35.4151),
+            new GLatLng(39.8561, 38.3572),
+            new GLatLng(39.9574, 38.6434),
+            new GLatLng(39.568, 39.9748),
+            new GLatLng(39.7819, 40.4525),
+            new GLatLng(39.9059, 41.2743),
+            new GLatLng(39.9713, 41.4263),
+            new GLatLng(39.7483, 42.8513),
+            new GLatLng(39.6555, 43.3448),
+            new GLatLng(39.5414, 44.037),
+            new GLatLng(39.3108, 44.4186),
+            new GLatLng(39.2813, 44.7776),
+            new GLatLng(38.3361, 45.8897),
+            new GLatLng(38.0727, 46.2389),
+            new GLatLng(38.0244, 46.3716),
+            new GLatLng(38.0588, 46.3406),
+            new GLatLng(37.8319, 46.8373),
+            new GLatLng(37.9445, 47.8083),
+            new GLatLng(38.0293, 47.9915),
+            new GLatLng(38.2489, 48.3077),
+            new GLatLng(38.2088, 48.3379),
+            new GLatLng(37.7293, 48.3133),
+            new GLatLng(37.7, 48.4737),
+            new GLatLng(37.7116, 48.9034),
+            new GLatLng(37.261, 49.3643),
+            new GLatLng(37.2743, 49.5431),
+            new GLatLng(37.5857, 48.6364),
+            new GLatLng(37.0708, 50.3965),
+            new GLatLng(36.637, 51.5538),
+            new GLatLng(36.6717, 52.4491),
+            new GLatLng(36.4813, 52.8659),
+            new GLatLng(36.6334, 53.2798),
+            new GLatLng(36.694, 53.5823),
+            new GLatLng(36.7546, 53.9538),
+            new GLatLng(36.7993, 54.1059),
+            new GLatLng(36.8233, 54.2547),
+            new GLatLng(36.9015, 54.7664),
+            new GLatLng(36.9387, 54.9212),
+            new GLatLng(37.3851, 55.8679),
+            new GLatLng(37.3277, 55.5424),
+            new GLatLng(37.338, 56.257),
+            new GLatLng(37.5273, 56.8921),
+            new GLatLng(37.3931, 57.9397),
+            new GLatLng(37.3868, 58.5658),
+            new GLatLng(37.5468, 58.4305),
+            new GLatLng(37.6285, 58.4063),
+            new GLatLng(37.6407, 58.3977),
+            new GLatLng(37.9405, 58.3775),
+            new GLatLng(37.9222, 58.4422),
+            new GLatLng(37.2185, 59.9883),
+            new GLatLng(37.225, 61.1687),
+            new GLatLng(37.2823, 61.3228),
+            new GLatLng(37.5764, 61.7791),
+            new GLatLng(37.5815, 61.7876),
+            new GLatLng(37.5881, 61.8268),
+            new GLatLng(37.5703, 61.8344),
+            new GLatLng(37.6106, 61.9597),
+            new GLatLng(37.6173, 62.0428),
+            new GLatLng(38.1926, 62.8793),
+            new GLatLng(38.5567, 63.1664),
+            new GLatLng(39.1047, 63.5536),
+            new GLatLng(39.1073, 63.4818),
+            new GLatLng(39.2036, 63.7141),
+            new GLatLng(39.2701, 63.7332),
+            new GLatLng(39.7698, 64.4214),
+            new GLatLng(39.8875, 64.4647),
+            new GLatLng(40.0759, 65.616),
+            new GLatLng(39.9231, 66.2301),
+            new GLatLng(39.9566, 66.485),
+            new GLatLng(39.7087, 66.9601),
+            new GLatLng(39.8588, 67.4688),
+            new GLatLng(40.3365, 68.1144),
+            new GLatLng(40.5948, 68.4031),
+            new GLatLng(40.497, 68.609),
+            new GLatLng(40.9188, 68.7117),
+            new GLatLng(40.8221, 70.7953),
+            new GLatLng(40.9424, 71.194),
+            new GLatLng(41.0225, 71.7991),
+            new GLatLng(41.3362, 72.2275),
+            new GLatLng(41.6966, 72.917),
+            new GLatLng(41.7615, 73.1216),
+            new GLatLng(41.9598, 72.8758),
+            new GLatLng(42.6777, 73.8972),
+            new GLatLng(42.8414, 73.9929),
+            new GLatLng(42.8002, 73.5976),
+            new GLatLng(43.6556, 73.7667),
+            new GLatLng(44.0745, 73.5812),
+            new GLatLng(44.2651, 73.8053),
+            new GLatLng(44.7055, 73.9478),
+            new GLatLng(45.4937, 73.5249),
+            new GLatLng(45.9193, 73.5209),
+            new GLatLng(46.2787, 73.708),
+            new GLatLng(46.6267, 74.3602),
+            new GLatLng(46.6959, 74.4814),
+            new GLatLng(46.9657, 74.9373),
+            new GLatLng(49.0031, 73.5496),
+            new GLatLng(49.7839, 73.1437),
+            new GLatLng(50.5259, 73.355),
+            new GLatLng(50.9399, 73.8674),
+            new GLatLng(51.3831, 74.2266),
+            new GLatLng(52.2302, 76.7244),
+            new GLatLng(52.2973, 76.9297),
+            new GLatLng(51.6355, 77.593),
+            new GLatLng(51.2289, 78.6127),
+            new GLatLng(50.4015, 80.245),
+            new GLatLng(50.4015, 80.2474),
+            new GLatLng(52.6052, 82.9017),
+            new GLatLng(53.2689, 83.7255),
+            new GLatLng(53.2986, 83.763),
+            new GLatLng(53.3475, 83.7581),
+            new GLatLng(53.3371, 83.7712),
+            new GLatLng(53.3486, 83.9455),
+            new GLatLng(53.2708, 84.3676),
+            new GLatLng(51.9567, 85.8477),
+            new GLatLng(50.9961, 85.6561),
+            new GLatLng(50.8054, 86.0033),
+            new GLatLng(50.7231, 86.2719),
+            new GLatLng(50.5617, 86.5542),
+            new GLatLng(50.4066, 86.779),
+            new GLatLng(50.2527, 87.6793),
+            new GLatLng(49.7201, 89.1858),
+            new GLatLng(49.6723, 89.2681),
+            new GLatLng(49.6085, 89.4662),
+            new GLatLng(49.4709, 89.7516),
+            new GLatLng(49.3169, 89.8348),
+            new GLatLng(49.1567, 89.8715),
+            new GLatLng(48.7988, 89.9462),
+            new GLatLng(48.4883, 90.5304),
+            new GLatLng(48.4091, 91.0016),
+            new GLatLng(48.0492, 91.6114),
+            new GLatLng(47.9888, 91.6958),
+            new GLatLng(47.9911, 91.6412),
+            new GLatLng(48.0071, 91.6613),
+            new GLatLng(47.703, 92.0839),
+            new GLatLng(47.1513, 92.7203),
+            new GLatLng(47.0553, 92.9968),
+            new GLatLng(47.0516, 93.1119),
+            new GLatLng(46.85, 94.2826),
+            new GLatLng(46.7182, 94.624),
+            new GLatLng(46.7054, 94.8078),
+            new GLatLng(46.4967, 95.3543),
+            new GLatLng(46.3771, 96.0211),
+            new GLatLng(46.3699, 96.2553),
+            new GLatLng(46.3734, 96.9072),
+            new GLatLng(46.0835, 97.7151),
+            new GLatLng(45.8458, 98.169),
+            new GLatLng(45.7553, 98.8965),
+            new GLatLng(45.8296, 99.221),
+            new GLatLng(45.8567, 99.3322),
+            new GLatLng(45.9302, 99.5827),
+            new GLatLng(46.0117, 100.3462),
+            new GLatLng(46.1845, 100.7181),
+            new GLatLng(46.1016, 100.7741),
+            new GLatLng(45.9268, 101.2547),
+            new GLatLng(45.8094, 101.9292),
+            new GLatLng(45.8854, 102.0463),
+            new GLatLng(46.0118, 102.2859),
+            new GLatLng(46.1248, 102.5789),
+            new GLatLng(47.3231, 103.6717),
+            new GLatLng(47.3702, 103.9557),
+            new GLatLng(47.6935, 104.9976),
+            new GLatLng(47.8957, 105.3557),
+            new GLatLng(47.8846, 105.7466),
+            new GLatLng(47.9136, 106.1136),
+            new GLatLng(47.8987, 106.4207),
+            new GLatLng(47.9165, 106.9076),
+            new GLatLng(47.9166, 106.9076),
+            new GLatLng(47.9166, 106.9076)
+        ], "#00ff00", 10);
+
+        map.addOverlay(polyline);
+
+	//create the map object
+        var map2 = new GMap2(document.getElementById("map2"));
+	map2.addOverlay(polyline2);	
+        map2.addControl(new GLargeMapControl());
+        map2.addControl(new GMapTypeControl());
+
+
+        map2.setCenter(new GLatLng(47.9166, 106.9076), 10);
+		carMarker = createCarMarker("images/justcar_sm.png", "Barney and the team" , new GLatLng(47.9166, 106.9076));
+          carMarker2 = createCarMarker("images/justcar_sm.png", "Barney and the team" , new GLatLng(47.9166, 106.9076));
+          map.addOverlay(carMarker);
+		map2.addOverlay(carMarker2);
+      }
+    }
+
+
+    //]]>
+    </script>
+  </head>
+  <body onload="load()" onunload="GUnload()">
+    <div id="map" style="width: 590px; height: 360px"></div>
+    <div id="map2" style="width: 590px; height: 360px"></div>
+    <div id="message"></div>
+    
+  </body>
+</html>

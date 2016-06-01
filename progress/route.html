@@ -1,0 +1,156 @@
+<CTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="/style.css" type="text/css" />
+<style type="text/css">
+body { font: 14px/1.3 verdana, arial, helvetica, sans-serif;
+  background-color:#888888 }
+h1 { font-size:18px; text-align:center; margin:0 0 .5em 0 }
+p.foot { font-size:10px; text-align:center; }
+</style>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Google Maps JavaScript API Example</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAIMrDGKZuvFaDj1JqWckPIhSyHNil9ncMiw6NXCDZKhVmdV0cMRRTtm1Hs_iTz71x6uBq_2bX1XgYsA"
+      type="text/javascript"></script>
+    <script type="text/javascript">
+
+    //<![CDATA[
+
+    function load() {
+      if (GBrowserIsCompatible()) {
+
+	function createMarker(path, comment, point){
+		var icon = new GIcon();
+		icon.image = path;
+		icon.shadow = "images/mm_20_shadow.png";
+		icon.iconSize = new GSize(12, 20);
+		icon.shadowSize = new GSize(22, 20);
+		icon.iconAnchor = new GPoint(6, 20);
+		icon.infoWindowAnchor = new GPoint(5, 1);
+		// Set up our GMarkerOptions object literal
+		var markerOpts = { icon:icon };
+		var marker = new GMarker(point, markerOpts);
+		GEvent.addListener(marker, "click", function() {
+         		 marker.openInfoWindowHtml(comment);
+       	 	});
+		return marker;
+	}
+
+	//create the map object
+        var map = new GMap2(document.getElementById("map"));
+
+        //centre map in kazahkstan 
+	map.setCenter(new GLatLng(48.04871,65.742188), 2);
+	//centre map in london
+	//map.setCenter(new GLatLng(51.507310, -0.170350), 1);
+	
+	var polyline = new GPolyline([
+		new GLatLng(51.489320, -0.111200),
+		new GLatLng(51.435186, 0.180927),
+                new GLatLng(51.126720, 1.311460),
+                new GLatLng(50.422560, 4.875380),
+                new GLatLng(49.612900, 6.201470),
+                new GLatLng(49.418790, 11.051760),
+                new GLatLng(50.061450, 14.509150),
+                new GLatLng(48.140280, 17.192680),
+                new GLatLng(47.437220, 19.094450),
+                new GLatLng(44.436340, 25.962070),
+                new GLatLng(42.049293,26.455078),
+                new GLatLng(40.996484,29.135742),
+                new GLatLng(39.926588,41.19873),
+                new GLatLng(38.065392,46.296387),
+                new GLatLng(35.585852,51.525879),
+                new GLatLng(37.944198,58.447266),
+                new GLatLng(38.993572,63.544922),
+                new GLatLng(39.571822,67.126465),
+                new GLatLng(40.313043,73.278809),
+                new GLatLng(40.313043, 73.278809),
+                new GLatLng(42.795401,74.685059),
+                new GLatLng(46.240652,73.696289),
+                new GLatLng(50.415519, 80.288086),
+                new GLatLng(53.278353,83.891602),
+                new GLatLng(49.738682,89.318848),
+                new GLatLng(46.54375,96.877441),
+                new GLatLng(45.490946,98.569336),
+                new GLatLng(46.935261,100.876465),
+                new GLatLng(46.073231,103.491211),
+                new GLatLng(47.842658,106.896973),
+		], "#ff0000", 5);	
+	map.addOverlay(polyline);
+
+	startMarker = createMarker("images/redballoon.png", "London, UK" , new GLatLng(51.507310, -0.170350));
+        map.addOverlay(startMarker);
+	
+	finishMarker = createMarker("images/greenballoon.png", "Ulaanbaatar, Mongolia" , new GLatLng(47.917723,106.933022));
+        map.addOverlay(finishMarker);
+
+	// marlow bridge 51.567314,-0.773265
+	marlowMarker = createMarker("images/blueballoon.png", "Marlow, UK <br>And its (not so) famous bridge!" , new GLatLng( 51.567314,-0.773265));
+        map.addOverlay(marlowMarker);
+	
+	// budapest bridge 47.498909,19.043512	
+	budaMarker = createMarker("images/blueballoon.png", "Budapest, Hungary<br> Centred on the big brother of the Marlow Bridge" , new GLatLng(47.498909,19.043512));
+        map.addOverlay(budaMarker);	
+	
+	map.addControl(new GLargeMapControl());
+	map.addControl(new GMapTypeControl());
+
+
+      }
+    }
+
+
+    //]]>
+    </script>
+  </head>
+
+  <body onload="load()" onunload="GUnload()">
+    	<h1>Route</h1>
+	<div id="map" style="width: 660px; height: 360px"></div>
+
+
+                <p class="dropcap">
+			This is our planned route. It only really takes into account the countries we plan to go through and some of the main cities en route.
+                </p>
+
+                <p class="main">
+			The full list of countries we plan to go through is as follows: <br><br>
+			England<br>
+			France<br>
+			Belgium<br>
+			Luxumbourg<br>
+			Germany<br>
+			Czech Republic<br>
+			Slovakia<br>
+			Hungary<br>
+			Bulgaria<br>
+			Romania<br>
+			Turkey<br>
+			Iran<br>
+			Turkmenistan<br>
+			Tajikistan<br>
+			Kyrgyzstan<br>
+			Kazakhstan<br>	
+			Russia<br>
+			Mongolia<br>
+                </p>
+
+                <p class=""main">
+			
+                </p>
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3462505-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>    
+  </body>
+</html>
+
+
